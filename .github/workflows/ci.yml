@@ -1,0 +1,49 @@
+name: Template CI
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15.3
+        env:
+          POSTGRES_DB: support_library
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+          cache: 'gradle'
+      - name: Build
+        run: ./gradlew check
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USER_NAME: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: support_library
+      - name: Dependency check
+        run: ./gradlew dependencyCheckAggregate
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USER_NAME: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: support_library

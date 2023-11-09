@@ -1,0 +1,43 @@
+spring:
+  config:
+    import: "optional:configtree:/mnt/secrets/juror/"
+  application:
+    name: HMCTS Support Library
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:support_library}
+    username: ${DB_USER_NAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    properties:
+      charSet: UTF-8
+    hikari:
+      minimumIdle: 2
+      maximumPoolSize: 10
+      idleTimeout: 10000
+      maxLifetime: 7200000
+      connectionTimeout: 30000
+      schema: support_library
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    generate-ddl: false
+  flyway:
+    default-schema: ${spring.datasource.hikari.schema}
+    table: schema_history
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+uk:
+  gov:
+    hmcts:
+      juror:
+        security:
+          use-database: true
+          token-validity: 1800000
+          secret: ${SECRET:WW91clZlcnlWZXJ5VmVyeVNlY3JldEtleVRoYXRJc1NvU2VjcmV0SURvbnRFdmVuS25vd0l0}
+          admin-user:
+            email: ${ADMIN_EMAIL:admin@scheduler.cgi.com}
+            password: ${ADMIN_PASSWORD:kj3TXdvYqmFTXXTq!9nA7ZUmDgiQ&W7Z&v7mnFyp2bvM&BZ#nPosFfL8zNvw}
+            firstname: ${ADMIN_FIRSTNAME:Admin}
+            lastname: ${ADMIN_LASTNAME:Admin}
