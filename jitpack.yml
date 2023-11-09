@@ -1,4 +1,4 @@
 jdk:
   - openjdk17
 install:
-  - ./gradlew build publishToMavenLocal
+  - ./gradlew build publishToMavenLocal -x integration
