@@ -13,8 +13,9 @@ plugins {
   id "org.flywaydb.flyway" version "9.22.3"
 }
 
+pubgroup = 'com.github.hmcts.juror'
 group = 'uk.gov.hmcts.juror'
-version = '0.1.9'
+version = '0.1.10'
 
 java {
   toolchain {
@@ -288,7 +289,7 @@ publishing {
   publications {
     Main(MavenPublication) {
       from components.java
-      groupId project.group
+      groupId project.pubgroup
       artifactId 'spring-support-library'
       version project.version
     }
