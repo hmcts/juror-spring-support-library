@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'com.github.hmcts.juror'
-version = '0.1.11'
+version = '1.0.0'
 
 java {
   toolchain {
@@ -246,7 +246,7 @@ dependencies {
 
 mainClassName = 'uk.gov.hmcts.juror.standard.Application'
 
-bootJar {
+jar {
     archiveBaseName = "spring-support-library"
     archiveVersion = project.version
     archiveFileName = "spring-support-library.jar"
