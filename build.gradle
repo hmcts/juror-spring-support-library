@@ -218,7 +218,7 @@ dependencies {
   implementation 'org.projectlombok:lombok:1.18.26'
   annotationProcessor 'org.projectlombok:lombok:1.18.26'
   implementation 'org.jetbrains:annotations:20.1.0'
-  testImplementation 'junit:junit:4.13.1'
+  testImplementation 'junit:junit:4.13.2'
 
   // Data Mapping
   implementation 'org.mapstruct:mapstruct:1.5.5.Final'
