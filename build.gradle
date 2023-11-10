@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'com.github.hmcts.juror'
-version = '0.1.10'
+version = '0.1.11'
 
 java {
   toolchain {
@@ -247,11 +247,13 @@ dependencies {
 mainClassName = 'uk.gov.hmcts.juror.standard.Application'
 
 bootJar {
-  archiveFileName = "spring-support-library.jar"
+    archiveBaseName = "spring-support-library"
+    archiveVersion = project.version
+    archiveFileName = "spring-support-library.jar"
 
-  manifest {
-    attributes('Implementation-Version': project.version.toString())
-  }
+    manifest {
+        attributes('Implementation-Version': project.version.toString())
+    }
 }
 
 // Gradle 7.x issue, workaround from: https://github.com/gradle/gradle/issues/17236#issuecomment-894768083
