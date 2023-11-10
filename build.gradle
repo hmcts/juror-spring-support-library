@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'uk.gov.hmcts.juror'
-version = '0.1.8'
+version = '0.1.9'
 
 java {
   toolchain {
@@ -283,3 +283,14 @@ flyway {
 }
 project.tasks['integration'].dependsOn flywayClean
 project.tasks['integration'].dependsOn flywayMigrate
+
+publishing {
+  publications {
+    Main(MavenPublication) {
+      from components.java
+      groupId project.group
+      artifactId 'spring-support-library'
+      version project.version
+    }
+  }
+}
