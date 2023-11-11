@@ -234,7 +234,7 @@ dependencies {
   runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: jwtVersion
 
   // Web requests
-  implementation 'org.springframework:spring-webflux:6.0.11'
+  implementation 'org.springframework:spring-webflux:6.0.13'
 
   testImplementation(platform('org.junit:junit-bom:5.9.3'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
