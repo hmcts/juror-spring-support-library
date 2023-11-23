@@ -253,7 +253,7 @@ bootJar {
   archiveFileName = "spring-support-library.jar"
 
   manifest {
-      attributes('Implementation-Version': project.version.toString())
+    attributes('Implementation-Version': project.version.toString())
   }
 }
 
