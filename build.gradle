@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'com.github.hmcts'
-version = '1.0.3'
+version = '1.0.4'
 
 java {
   toolchain {
@@ -248,8 +248,6 @@ dependencies {
   implementation 'ch.qos.logback:logback-classic:1.4.14'
   implementation 'ch.qos.logback:logback-core:1.4.14'
 }
-
-mainClassName = 'uk.gov.hmcts.juror.standard.Application'
 
 bootJar {
   archiveClassifier = 'boot'
