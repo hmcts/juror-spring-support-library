@@ -10,9 +10,9 @@ import uk.gov.hmcts.juror.standard.config.ConfigProperties;
 @EnableJpaRepositories
 @EnableConfigurationProperties(ConfigProperties.class)
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, its not a utility class
-public class Application {
+public class SpringSupportApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(SpringSupportApplication.class, args);
     }
 }
