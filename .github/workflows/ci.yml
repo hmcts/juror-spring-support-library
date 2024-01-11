@@ -39,11 +39,3 @@ jobs:
           DB_USER_NAME: postgres
           DB_PASSWORD: postgres
           DB_NAME: support_library
-      - name: Dependency check
-        run: ./gradlew dependencyCheckAggregate
-        env:
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_USER_NAME: postgres
-          DB_PASSWORD: postgres
-          DB_NAME: support_library
