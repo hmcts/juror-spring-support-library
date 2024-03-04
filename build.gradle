@@ -246,7 +246,7 @@ dependencies {
   //Dependency overrides (Can be removed once other dependencies get updates to resolve security issues)
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
   implementation 'ch.qos.logback:logback-classic:1.5.2'
-  implementation 'ch.qos.logback:logback-core:1.5.1'
+  implementation 'ch.qos.logback:logback-core:1.5.3'
 }
 
 bootJar {
