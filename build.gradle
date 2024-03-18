@@ -6,7 +6,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.4'
-  id 'org.springframework.boot' version '3.2.0'
+  id 'org.springframework.boot' version '3.2.3'
   id 'org.owasp.dependencycheck' version '9.0.9'
   id 'com.github.ben-manes.versions' version '0.51.0'
   id 'org.sonarqube' version '4.4.1.3373'
@@ -14,7 +14,7 @@ plugins {
 }
 
 group = 'com.github.hmcts'
-version = '1.0.8'
+version = '1.1.0'
 
 java {
   toolchain {
@@ -180,9 +180,9 @@ repositories {
 }
 
 ext {
-  log4JVersion = "2.22.0"
+  log4JVersion = "2.23.1"
   jwtVersion = "0.12.5"
-  springVersion = "3.2.0"
+  springVersion = "3.2.3"
 }
 
 ext['snakeyaml.version'] = '2.0'
@@ -244,7 +244,6 @@ dependencies {
   }, version: springVersion
 
   //Dependency overrides (Can be removed once other dependencies get updates to resolve security issues)
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.0'// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
   implementation 'ch.qos.logback:logback-classic:1.5.3'
   implementation 'ch.qos.logback:logback-core:1.5.3'
 }
@@ -303,4 +302,18 @@ publishing {
       version project.version
     }
   }
+}
+
+task runAllStyleChecks {
+  dependsOn 'checkstyleMain'
+  dependsOn 'checkstyleTest'
+  dependsOn 'checkstyleIntegrationTest'
+  dependsOn 'checkstyleSmokeTest'
+  dependsOn 'checkstyleFunctionalTest'
+
+  dependsOn 'pmdMain'
+  dependsOn 'pmdTest'
+  dependsOn 'pmdIntegrationTest'
+  dependsOn 'pmdSmokeTest'
+  dependsOn 'pmdFunctionalTest'
 }
