@@ -180,7 +180,7 @@ repositories {
 }
 
 ext {
-  log4JVersion = "2.22.0"
+  log4JVersion = "2.23.1"
   jwtVersion = "0.12.5"
   springVersion = "3.2.0"
 }
