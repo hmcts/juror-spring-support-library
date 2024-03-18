@@ -41,6 +41,7 @@ import java.util.Set;
 
 @Data
 @Slf4j
+@SuppressWarnings("PMD.ExcessiveImports")
 public class WebConfig {
     @NotBlank
     private String scheme;
@@ -122,7 +123,7 @@ public class WebConfig {
             return new SSLConnectionSocketFactory(sslContextBuilder.build());
         }
 
-        private KeyStore loadKeyStore(final File file, final char[] password)
+        private KeyStore loadKeyStore(final File file, final char... password)
             throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
 
             byte[] fileContent = Files.readAllBytes(file.toPath());
@@ -130,7 +131,7 @@ public class WebConfig {
                 fileContent = Base64.decodeBase64(fileContent);
             }
             final KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            try (final InputStream inputStream = new ByteArrayInputStream(fileContent)) {
+            try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
                 keyStore.load(inputStream, password);
             }
             return keyStore;
