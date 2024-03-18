@@ -80,6 +80,7 @@ public class WebConfig {
 
         private String username;
         private String password;
+        private boolean enable;
     }
 
     @Data
@@ -91,6 +92,7 @@ public class WebConfig {
         private File keyStoreLocation;
         private String keyStorePassword;
         private String keyPassword;
+        private boolean enable;
 
         @SuppressWarnings("AbbreviationAsWordInName")
         public SSLConnectionSocketFactory getSSLConnectionSocketFactory()
@@ -134,7 +136,7 @@ public class WebConfig {
             final HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                 .setDefaultRequestConfig(config);
 
-            if (webConfig.getProxy() != null) {
+            if (webConfig.getProxy() != null && webConfig.getProxy().isEnable()) {
                 Proxy proxy = webConfig.getProxy();
                 HttpHost proxyHost = new HttpHost(proxy.getScheme(),
                     proxy.getHost(),
@@ -156,7 +158,7 @@ public class WebConfig {
                 );
             }
 
-            if (webConfig.getSsl() != null) {
+            if (webConfig.getSsl() != null && webConfig.getSsl().isEnable()) {
                 httpClientBuilder.setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
                     .setSSLSocketFactory(webConfig.getSsl().getSSLConnectionSocketFactory())
                     .build()
