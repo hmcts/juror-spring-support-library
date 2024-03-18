@@ -136,17 +136,8 @@ public class WebConfig {
             final HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
                 .setDefaultRequestConfig(config);
 
-            if (webConfig.getProxy() != null && webConfig.getProxy().isEnable()) {
-                Proxy proxy = webConfig.getProxy();
-                HttpHost proxyHost = new HttpHost(proxy.getScheme(),
-                    proxy.getHost(),
-                    proxy.getPort());
+            addProxy(httpClientBuilder, authInterceptor, webConfig);
 
-                httpClientBuilder.setProxy(proxyHost);
-                if (StringUtils.isNotBlank(proxy.getUsername())) {
-                    authInterceptor.addBasic("Proxy-Authorization", proxy.getUsername(), proxy.getPassword());
-                }
-            }
             if (StringUtils.isNotBlank(webConfig.getUsername())) {
                 authInterceptor.addBasic("Authorization", webConfig.getUsername(), webConfig.getPassword());
             }
@@ -169,6 +160,21 @@ public class WebConfig {
         } catch (Exception e) {
             log.error("Unexpected error when setting up request factory", e);
             throw new InternalServerException("Unexpected error when setting up request factory", e);
+        }
+    }
+
+    private static void addProxy(HttpClientBuilder httpClientBuilder, AuthInterceptor authInterceptor,
+                                 WebConfig webConfig) {
+        if (webConfig.getProxy() != null && webConfig.getProxy().isEnable()) {
+            Proxy proxy = webConfig.getProxy();
+            HttpHost proxyHost = new HttpHost(proxy.getScheme(),
+                proxy.getHost(),
+                proxy.getPort());
+
+            httpClientBuilder.setProxy(proxyHost);
+            if (StringUtils.isNotBlank(proxy.getUsername())) {
+                authInterceptor.addBasic("Proxy-Authorization", proxy.getUsername(), proxy.getPassword());
+            }
         }
     }
 
