@@ -25,9 +25,13 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import uk.gov.hmcts.juror.standard.service.exceptions.InternalServerException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -85,7 +89,7 @@ public class WebConfig {
 
     @Data
     public static class SslConfig {
-
+        private boolean isBase64Encoded;
         private File trustStoreLocation;
         private String trustStorePassword;
 
@@ -104,20 +108,35 @@ public class WebConfig {
             if (this.getTrustStoreLocation() != null && StringUtils.isNotBlank(
                 this.getTrustStorePassword())) {
                 sslContextBuilder.loadTrustMaterial(
-                    this.getTrustStoreLocation(),
-                    this.getTrustStorePassword().toCharArray());
+                    loadKeyStore(this.getTrustStoreLocation(),
+                        this.getTrustStorePassword().toCharArray()),
+                    null);
             }
             if (this.getKeyStoreLocation() != null && StringUtils.isNotBlank(
                 this.getKeyStorePassword())) {
                 sslContextBuilder.loadKeyMaterial(
-                    this.getKeyStoreLocation(),
-                    this.getKeyStorePassword().toCharArray(),
+                    loadKeyStore(this.getKeyStoreLocation(),
+                        this.getKeyStorePassword().toCharArray()),
                     this.getKeyPassword().toCharArray());
             }
             return new SSLConnectionSocketFactory(sslContextBuilder.build());
         }
 
+        private KeyStore loadKeyStore(final File file, final char[] password)
+            throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
+
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            if (this.isBase64Encoded) {
+                fileContent = Base64.decodeBase64(fileContent);
+            }
+            final KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            try (final InputStream inputStream = new ByteArrayInputStream(fileContent)) {
+                keyStore.load(inputStream, password);
+            }
+            return keyStore;
+        }
     }
+
 
     public ClientHttpRequestFactory getRequestFactory() {
         return getRequestFactory(this);
