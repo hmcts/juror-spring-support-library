@@ -19,6 +19,8 @@ public class SoapConfig extends WebConfig {
     private String requestMethod;
     @NotBlank
     private String responseMethod;
+    @NotBlank
+    private String soapAction;
 
     private List<WebConfig> failoverConfig;
 }

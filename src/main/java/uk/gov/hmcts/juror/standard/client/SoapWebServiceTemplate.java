@@ -72,10 +72,9 @@ public record SoapWebServiceTemplate(
     @SuppressWarnings("unchecked")
     private <T, R> R call(T request, WebServiceTemplate webServiceTemplate) {
         return (R) webServiceTemplate
-            .marshalSendAndReceive(request, message -> {
+            .marshalSendAndReceive(config.getUrl(), request, message -> {
                 SaajSoapMessage saajSoapMessage = (SaajSoapMessage) message;
-                saajSoapMessage.setSoapAction(
-                    config.getNamespace() + "/" + config.getRequestMethod());
+                saajSoapMessage.setSoapAction(config.getSoapAction());
             });
     }
 }
