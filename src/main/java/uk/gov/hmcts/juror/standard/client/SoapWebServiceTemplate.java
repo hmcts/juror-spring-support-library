@@ -72,7 +72,7 @@ public record SoapWebServiceTemplate(
     @SuppressWarnings("unchecked")
     private <T, R> R call(T request, WebServiceTemplate webServiceTemplate) {
         return (R) webServiceTemplate
-            .marshalSendAndReceive(config.getUrl(), request, message -> {
+            .marshalSendAndReceive(config.getUri(), request, message -> {
                 SaajSoapMessage saajSoapMessage = (SaajSoapMessage) message;
                 saajSoapMessage.setSoapAction(config.getSoapAction());
             });
