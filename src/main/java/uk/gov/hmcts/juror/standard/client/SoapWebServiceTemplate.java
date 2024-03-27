@@ -3,6 +3,7 @@ package uk.gov.hmcts.juror.standard.client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.soap.client.core.SoapActionCallback;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import uk.gov.hmcts.juror.standard.config.SoapConfig;
 import uk.gov.hmcts.juror.standard.config.WebConfig;
@@ -72,10 +73,9 @@ public record SoapWebServiceTemplate(
     @SuppressWarnings("unchecked")
     private <T, R> R call(T request, WebServiceTemplate webServiceTemplate) {
         return (R) webServiceTemplate
-            .marshalSendAndReceive(request, message -> {
+            .marshalSendAndReceive(config.getUrl(), request, message -> {
                 SaajSoapMessage saajSoapMessage = (SaajSoapMessage) message;
-                saajSoapMessage.setSoapAction(
-                    config.getNamespace() + "/" + config.getRequestMethod());
+                saajSoapMessage.setSoapAction(config.getSoapAction());
             });
     }
 }
