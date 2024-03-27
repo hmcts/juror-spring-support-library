@@ -3,7 +3,6 @@ package uk.gov.hmcts.juror.standard.client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import org.springframework.ws.soap.client.core.SoapActionCallback;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import uk.gov.hmcts.juror.standard.config.SoapConfig;
 import uk.gov.hmcts.juror.standard.config.WebConfig;
