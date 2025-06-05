@@ -10,7 +10,7 @@ plugins {
   id 'org.owasp.dependencycheck' version '9.2.0'
   id 'com.github.ben-manes.versions' version '0.51.0'
   id 'org.sonarqube' version '5.1.0.4882'
-  id "org.flywaydb.flyway" version "9.22.3"
+  id "org.flywaydb.flyway" version "11.9.1"
 }
 
 group = 'com.github.hmcts'
@@ -214,7 +214,7 @@ dependencies {
   implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
   implementation 'org.postgresql:postgresql:42.7.6'
   implementation 'org.hibernate.orm:hibernate-envers:6.6.17.Final'
-  implementation 'org.flywaydb:flyway-core:9.22.3'
+  implementation 'org.flywaydb:flyway-core:11.9.1'
 
   // Documentation, logging
   implementation 'org.projectlombok:lombok:1.18.38'
