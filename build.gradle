@@ -238,7 +238,7 @@ dependencies {
   // Web requests
   implementation 'org.springframework:spring-webflux:6.2.8'
 
-  testImplementation(platform('org.junit:junit-bom:5.13.2'))
+  testImplementation(platform('org.junit:junit-bom:5.13.3'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
     exclude group: 'junit', module: 'junit'
