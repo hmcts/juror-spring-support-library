@@ -198,7 +198,7 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springVersion
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springVersion
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web-services', version: springVersion
-  implementation 'org.springframework.data:spring-data-commons:3.5.1'
+  implementation 'org.springframework.data:spring-data-commons:3.5.2'
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
 
