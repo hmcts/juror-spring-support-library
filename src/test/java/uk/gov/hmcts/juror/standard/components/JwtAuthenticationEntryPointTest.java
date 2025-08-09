@@ -7,9 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.juror.standard.api.model.error.UnauthorisedError;
 
@@ -32,11 +32,11 @@ class JwtAuthenticationEntryPointTest {
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    @MockBean
+    @MockitoBean
     private HttpServletRequest request;
-    @MockBean
+    @MockitoBean
     private HttpServletResponse response;
-    @MockBean
+    @MockitoBean
     private ObjectMapper objectMapper;
 
     @Test

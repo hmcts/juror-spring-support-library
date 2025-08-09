@@ -5,11 +5,11 @@ import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.juror.standard.config.JwtSecurityConfig;
 import uk.gov.hmcts.juror.standard.service.contracts.auth.JwtService;
@@ -32,16 +32,16 @@ class JwtAuthenticationInterceptorTest {
 
     private JwtAuthenticationInterceptor jwtAuthenticationInterceptor;
 
-    @MockBean
+    @MockitoBean
     private ClientHttpRequestExecution clientHttpRequestExecution;
-    @MockBean
+    @MockitoBean
     private HttpRequest request;
-    @MockBean
+    @MockitoBean
     private HttpHeaders httpHeaders;
-    @MockBean
+    @MockitoBean
     private ClientHttpResponse clientHttpResponse;
 
-    @MockBean
+    @MockitoBean
     private JwtService jwtService;
 
 
