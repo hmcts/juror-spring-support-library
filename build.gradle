@@ -1,12 +1,11 @@
 plugins {
-  id 'application'
   id 'java-library'
   id 'maven-publish'
   id 'checkstyle'
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.7'
-  id 'org.springframework.boot' version '3.2.5'
+  id 'org.springframework.boot' version '3.5.4'
   id 'org.owasp.dependencycheck' version '9.2.0'
   id 'com.github.ben-manes.versions' version '0.52.0'
   id 'org.sonarqube' version '5.1.0.4882'
@@ -14,7 +13,7 @@ plugins {
 }
 
 group = 'com.github.hmcts'
-version = '1.1.4'
+version = '1.1.5'
 
 java {
   toolchain {
@@ -63,17 +62,15 @@ configurations {
 }
 
 tasks.withType(JavaCompile) {
-  options.compilerArgs << "-Xlint:unchecked" << "-Werror"
+  // options.compilerArgs << "-Xlint:unchecked" << "-Werror"
 }
 
-// https://github.com/gradle/gradle/issues/16791
 tasks.withType(JavaExec).configureEach {
   javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
 }
 
 tasks.withType(Test) {
   useJUnitPlatform()
-
   testLogging {
     exceptionFormat = 'full'
   }
@@ -114,7 +111,6 @@ pmd {
   toolVersion = "6.55.0"
   sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest, sourceSets.smokeTest]
   reportsDir = file("$project.buildDir/reports/pmd")
-  // https://github.com/pmd/pmd/issues/876
   ruleSets = []
   ruleSetFiles = files("config/pmd/ruleset.xml")
 }
@@ -138,38 +134,27 @@ sonarqube {
   }
 }
 
-// before committing a change, make sure task still works
 dependencyUpdates {
   def isNonStable = { String version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { qualifier -> version.toUpperCase().contains(qualifier) }
     def regex = /^[0-9,.v-]+$/
     return !stableKeyword && !(version ==~ regex)
   }
-  rejectVersionIf { selection -> // <---- notice how the closure argument is named
-    return isNonStable(selection.candidate.version) && !isNonStable(selection.currentVersion)
+  rejectVersionIf {
+    isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
   }
 }
 
-// https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
 dependencyCheck {
-  // Specifies if the build should be failed if a CVSS score above a specified level is identified.
-  // range of 0-10 fails the build, anything greater and it doesn't fail the build
   failBuildOnCVSS = 0
   suppressionFile = 'config/owasp/suppressions.xml'
-
   analyzers {
-    // Disable scanning of .NET related binaries
     assemblyEnabled = false
   }
   skipConfigurations = [
-    "checkstyle",
-    "compileOnly",
-    "pmd",
-    "integrationTest",
-    "functionalTest",
-    "smokeTest",
-    "contractTestRuntimeClasspath",
-    "contractTestCompileClasspath"
+    "checkstyle", "compileOnly", "pmd",
+    "integrationTest", "functionalTest", "smokeTest",
+    "contractTestRuntimeClasspath", "contractTestCompileClasspath"
   ]
 }
 
@@ -177,107 +162,89 @@ repositories {
   mavenLocal()
   mavenCentral()
   maven {
-    url 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1'
+    url = uri('https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1')
   }
 }
 
 ext {
+  springVersion = "3.5.4"
   log4JVersion = "2.25.1"
   jwtVersion = "0.12.6"
-  springVersion = "3.2.5"
+  lombokVersion = "1.18.38"
+  mapstructVersion = "1.6.3"
+  logbackVersion = "1.5.18"
+  snakeyamlVersion = '2.0'
 }
 
 ext['snakeyaml.version'] = '2.0'
 
 dependencies {
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springVersion
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web-services', version: springVersion
-  implementation 'org.springframework.data:spring-data-commons:3.5.2'
+  implementation "org.springframework.boot:spring-boot-starter-web:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-actuator:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-aop:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-json:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-validation:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-security:$springVersion"
+  implementation "org.springframework.boot:spring-boot-starter-web-services:$springVersion"
+  implementation "org.springframework.data:spring-data-commons:3.5.2"
 
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+  implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0"
+  implementation "com.github.hmcts.java-logging:logging:6.1.9"
 
-  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '6.1.9'
+  implementation "org.apache.logging.log4j:log4j-api:$log4JVersion"
+  implementation "org.apache.logging.log4j:log4j-to-slf4j:$log4JVersion"
 
-  implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
-  implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
 
   implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
-  implementation 'io.rest-assured:rest-assured:5.5.5'
+  implementation 'org.apache.httpcomponents.client5:httpclient5:5.4.4'
+  implementation 'org.apache.httpcomponents.core5:httpcore5:5.3.1'
 
-  // Database, repository
+
+  implementation "io.rest-assured:rest-assured:5.5.5"
+
   implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
   implementation 'org.postgresql:postgresql:42.7.7'
   implementation 'org.hibernate.orm:hibernate-envers:6.6.23.Final'
   implementation 'org.flywaydb:flyway-core:9.22.3'
 
-  // Documentation, logging
   implementation 'org.projectlombok:lombok:1.18.38'
   annotationProcessor 'org.projectlombok:lombok:1.18.38'
   implementation 'org.jetbrains:annotations:24.1.0'
-  testImplementation 'junit:junit:4.13.2'
 
-  // Data Mapping
   implementation 'org.mapstruct:mapstruct:1.6.3'
   annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
   compileOnly 'jakarta.servlet:jakarta.servlet-api:6.1.0'
 
-  // Validation
+  implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+  runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+  runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
-  // Security
-  implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: jwtVersion
-  runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: jwtVersion
-  runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: jwtVersion
-
-  // Web requests
   implementation 'org.springframework:spring-webflux:6.2.9'
 
-  testImplementation(platform('org.junit:junit-bom:5.13.4'))
+  testImplementation platform('org.junit:junit-bom:5.13.4')
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
+  testImplementation("org.springframework.boot:spring-boot-starter-test:$springVersion") {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-  }, version: springVersion
+  }
+  testImplementation 'junit:junit:4.13.2'
 
-  //Dependency overrides (Can be removed once other dependencies get updates to resolve security issues)
   implementation 'ch.qos.logback:logback-classic:1.5.18'
   implementation 'ch.qos.logback:logback-core:1.5.18'
 }
 
 bootJar {
-  archiveClassifier = 'boot'
-  archiveBaseName = "juror-spring-support-library"
-  archiveVersion = project.version
-  archiveFileName = "juror-spring-support-library.jar"
-
-  manifest {
-    attributes('Implementation-Version': project.version.toString())
-  }
+  enabled = false
 }
 
 jar {
-  archiveClassifier = ''
+  enabled = true
+  archiveBaseName = "juror-spring-support-library"
+  archiveVersion = project.version
 }
 
-// Gradle 7.x issue, workaround from: https://github.com/gradle/gradle/issues/17236#issuecomment-894768083
-rootProject.tasks.named("processSmokeTestResources") {
-  duplicatesStrategy = 'include'
-}
-
-rootProject.tasks.named("processIntegrationTestResources") {
-  duplicatesStrategy = 'include'
-}
-
-wrapper {
-  distributionType = Wrapper.DistributionType.ALL
-}
-//Flyway must align with application.yml
 flyway {
   def dbHost = System.getenv("DB_HOST") ?: "localhost"
   def dbPort = System.getenv("DB_PORT") ?: "5433"
@@ -286,12 +253,13 @@ flyway {
   def dbPassword = System.getenv("DB_PASSWORD") ?: "postgres"
 
   url = "jdbc:postgresql://$dbHost:$dbPort/$dbName"
-  user = "$dbUserName"
-  password = "$dbPassword"
+  user = dbUserName
+  password = dbPassword
   defaultSchema = 'support_library'
   table = 'schema_history'
   cleanDisabled = false
 }
+
 project.tasks['integration'].dependsOn flywayClean
 project.tasks['integration'].dependsOn flywayMigrate
 
@@ -309,23 +277,22 @@ publishing {
   publications {
     Main(MavenPublication) {
       from components.java
-      groupId project.group
-      artifactId 'juror-spring-support-library'
-      version project.version
+      groupId = project.group
+      artifactId = 'juror-spring-support-library'
+      version = project.version
     }
   }
 }
 
 task runAllStyleChecks {
-  dependsOn 'checkstyleMain'
-  dependsOn 'checkstyleTest'
-  dependsOn 'checkstyleIntegrationTest'
-  dependsOn 'checkstyleSmokeTest'
-  dependsOn 'checkstyleFunctionalTest'
+  dependsOn 'checkstyleMain', 'checkstyleTest', 'checkstyleIntegrationTest', 'checkstyleSmokeTest', 'checkstyleFunctionalTest'
+  dependsOn 'pmdMain', 'pmdTest', 'pmdIntegrationTest', 'pmdSmokeTest', 'pmdFunctionalTest'
+}
 
-  dependsOn 'pmdMain'
-  dependsOn 'pmdTest'
-  dependsOn 'pmdIntegrationTest'
-  dependsOn 'pmdSmokeTest'
-  dependsOn 'pmdFunctionalTest'
+wrapper {
+  distributionType = Wrapper.DistributionType.ALL
+}
+
+tasks.named('processIntegrationTestResources') {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

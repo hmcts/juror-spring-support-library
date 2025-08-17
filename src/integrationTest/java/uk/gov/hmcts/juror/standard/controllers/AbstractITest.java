@@ -23,15 +23,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "PMD.SignatureDeclareThrowsException"
 })
 public abstract class AbstractITest {
+
     public static final String ADMIN_EMAIL = "admin@scheduler.cgi.com";
     public static final String ADMIN_PASSWORD_ENCRYPTED =
         "kj3TXdvYqmFTXXTq!9nA7ZUmDgiQ&W7Z&v7mnFyp2bvM&BZ#nPosFfL8zNvw";
 
     public static final String USER_PASSWORD = "password123";
 
-    private final MockMvc mockMvc;
+    private MockMvc mockMvc;
 
+    protected AbstractITest() {
+        // Required for field-injection-based tests
+    }
+
+    /**
+     * Constructor for backward compatibility.
+     * Prefer using setMockMvc() if you use field injection.
+     */
     protected AbstractITest(MockMvc mockMvc) {
+        this.mockMvc = mockMvc;
+    }
+
+    /**
+     * Setter for use when using @Autowired with field injection.
+     */
+    protected void setMockMvc(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
 
@@ -40,12 +56,11 @@ public abstract class AbstractITest {
                                         @NotNull HttpMethod httpMethod,
                                         @NotNull String jsonContent) throws Exception {
 
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.request(
-            httpMethod, new URI(url));
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =
+            MockMvcRequestBuilders.request(httpMethod, new URI(url));
 
         if (!jwt.isEmpty()) {
-            mockHttpServletRequestBuilder
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+            mockHttpServletRequestBuilder.header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         }
 
         if (!jsonContent.isEmpty()) {
@@ -53,16 +68,16 @@ public abstract class AbstractITest {
         }
 
         return mockMvc.perform(mockHttpServletRequestBuilder
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON));
+                                   .contentType(MediaType.APPLICATION_JSON)
+                                   .accept(MediaType.APPLICATION_JSON));
     }
 
     public String generateJwt(String loginRequest) throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                  .post("/auth/login")
-                                  .content(loginRequest)
-                                  .contentType(MediaType.APPLICATION_JSON)
-                                  .accept(MediaType.APPLICATION_JSON))
+                                                  .post("/auth/login")
+                                                  .content(loginRequest)
+                                                  .contentType(MediaType.APPLICATION_JSON)
+                                                  .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.jwt").isNotEmpty())
             .andReturn();

@@ -1,0 +1,15 @@
+{
+  "email": "admin@scheduler.cgi.com",
+  "firstname": "Ben",
+  "lastname": "Edwards",
+  "roles": [
+    "ADMIN"
+  ],
+  "permissions": [
+    "user::create"
+  ],
+  "combined_permissions": [
+    "user::create",
+    "user::delete"
+  ]
+}
