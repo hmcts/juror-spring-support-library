@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.juror.standard.api.model.auth.AssignPermissionsRequest;
 import uk.gov.hmcts.juror.standard.api.model.auth.RegisterRequest;
@@ -70,21 +70,21 @@ import static org.mockito.Mockito.when;
 })
 class UserServiceImplTest {
 
-    @MockBean
+    @MockitoBean
     private PasswordEncoder passwordEncoder;
-    @MockBean
+    @MockitoBean
     private JwtService jwtService;
-    @MockBean
+    @MockitoBean
     private AuthenticationManager authenticationManager;
-    @MockBean
+    @MockitoBean
     private UserRepository userRepository;
 
     @Autowired
     private UserServiceImpl userService;
 
-    @MockBean
+    @MockitoBean
     private RoleService roleService;
-    @MockBean
+    @MockitoBean
     private PermissionService permissionService;
 
     @AfterEach

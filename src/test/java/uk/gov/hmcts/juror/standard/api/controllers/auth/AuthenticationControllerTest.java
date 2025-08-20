@@ -10,10 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.ResultActions;
 import uk.gov.hmcts.juror.standard.api.ExceptionHandling;
@@ -89,10 +89,10 @@ class AuthenticationControllerTest {
     private static final String CONTROLLER_BASEURL = "/auth";
     private static final String RESOURCE_PREFIX = "/testData/authenticationController";
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
 
-    @MockBean
+    @MockitoBean
     private UserMapper userMapper;
 
     protected Stream<InvalidPayloadArgument> getInvalidPayloadUserEmailRequestArgumentSource(

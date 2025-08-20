@@ -1,6 +1,7 @@
 package uk.gov.hmcts.juror.standard.controllers;
 
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,8 +49,11 @@ class AuthenticationITest extends AbstractITest {
     private static final String RESET_PASSWORD = "testPassword123";
 
     @Autowired
-    protected AuthenticationITest(MockMvc mockMvc) {
-        super(mockMvc);
+    private  MockMvc mockMvc;
+
+    @BeforeEach
+    void setupMockMvc() {
+        setMockMvc(mockMvc);
     }
 
     @DisplayName("Login: as an admin user - is okay")

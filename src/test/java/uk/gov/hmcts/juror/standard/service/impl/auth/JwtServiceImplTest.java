@@ -18,11 +18,11 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.juror.standard.service.exceptions.UnauthorisedException;
 import uk.gov.hmcts.juror.standard.testsupport.TestConstants;
@@ -68,7 +68,7 @@ class JwtServiceImplTest {
     @Autowired
     private JwtServiceImpl jwtService;
 
-    @MockBean
+    @MockitoBean
     private Clock clock;
 
     private Date currentDate;
