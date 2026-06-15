@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
   <!--Please add all the temporary suppression under the below section-->
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted dependency: pkg:javascript/DOMPurify@3.2.4
       Files: swagger-ui-bundle.js, swagger-ui-es-bundle.js
@@ -18,7 +18,7 @@
     <vulnerabilityName>When USE_PROFILES is enabled, DOMPurify rebuilds ALLOWED_ATTR as a plain array whose properties are looked up by name, making it susceptible to prototype pollution. If Array.prototype has been polluted with an event handler attribute name (e.g. onclick), DOMPurify will allow that event handler to survive sanitization, resulting in DOM-based XSS.</vulnerabilityName>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted dependency: pkg:maven/org.apache.commons/commons-lang3@3.17.0
     ]]></notes>
@@ -26,7 +26,7 @@
     <cve>CVE-2025-48924</cve>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted dependency: pkg:maven/org.apache.logging.log4j/log4j-api@2.25.1
     ]]></notes>
@@ -39,7 +39,7 @@
     <cve>CVE-2026-34481</cve>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted dependencies: tomcat-embed-core, tomcat-embed-websocket @ 10.1.54
     ]]></notes>
@@ -53,7 +53,7 @@
     <cve>CVE-2026-43515</cve>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted dependency: pkg:maven/org.hibernate.validator/hibernate-validator@8.0.3.Final
     ]]></notes>
@@ -61,7 +61,7 @@
     <cve>CVE-2025-15104</cve>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted Spring Boot starter dependencies @ 3.5.5
     ]]></notes>
@@ -76,7 +76,7 @@
     <cve>CVE-2026-40977</cve>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted Spring Security dependencies @ 6.5.10
     ]]></notes>
@@ -86,7 +86,7 @@
     <cve>CVE-2026-41694</cve>
   </suppress>
 
-  <suppress until="2026-07-15">
+  <suppress until="2026-09-15">
     <notes><![CDATA[
       Impacted Spring Framework dependencies @ 6.2.18
     ]]></notes>
