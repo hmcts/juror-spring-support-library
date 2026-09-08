@@ -25,8 +25,7 @@ public class ApplicationDatabaseBeans {
     @Bean
     public AuthenticationProvider authenticationProviderDB(PasswordEncoder passwordEncoder,
                                                            UserDetailsService userDetailsService) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
