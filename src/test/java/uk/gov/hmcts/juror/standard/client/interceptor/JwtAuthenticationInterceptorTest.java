@@ -74,7 +74,7 @@ class JwtAuthenticationInterceptorTest {
 
     @Test
     void positiveInterceptValid() throws IOException {
-        when(httpHeaders.containsKey("Authorization")).thenReturn(false);
+        when(httpHeaders.containsHeader("Authorization")).thenReturn(false);
 
         assertEquals(clientHttpResponse,
             jwtAuthenticationInterceptor.intercept(request, body, clientHttpRequestExecution),
@@ -97,7 +97,7 @@ class JwtAuthenticationInterceptorTest {
 
     @Test
     void negativeInterceptAlreadyHasHeader() throws IOException {
-        when(httpHeaders.containsKey("Authorization")).thenReturn(true);
+        when(httpHeaders.containsHeader("Authorization")).thenReturn(true);
 
         assertEquals(clientHttpResponse,
             jwtAuthenticationInterceptor.intercept(request, body, clientHttpRequestExecution),
